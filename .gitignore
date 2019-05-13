@@ -1,0 +1,9 @@
+# Ignore virtual folder
+
+Include/
+Lib/
+Scripts/
+tcl/
+
+# Ignore files
+LICENSE.txt
