@@ -1,5 +1,8 @@
+#!/usr/lib/env python3
+
 import configparser, os, tarfile, colorama
 from source import colors, errorscode, ping
+import sys
 
 
 config = configparser.ConfigParser()
@@ -27,7 +30,7 @@ def changedir(server, path):
     except:
         errorscode.availabe(server)
         errorscode.terminate()
-        quit()
+        sys.exit()
 
     if (os.getcwd() == fullserver):
         getpath = os.chdir(path)
@@ -35,7 +38,7 @@ def changedir(server, path):
     else:
         print(colors.red(f'Path --{path}-- is not available'))
         errorscode.terminate()
-        quit()
+        sys.exit()
 
 
 
