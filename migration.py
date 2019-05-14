@@ -1,8 +1,10 @@
 #!/usr/lib/env python3
 
 import configparser, os, tarfile, colorama
-from source import colors, errorscode, ping
+from source import colors, errorscode, ping, list
 import sys
+from datetime import datetime
+
 
 
 config = configparser.ConfigParser()
@@ -53,9 +55,28 @@ def ctar(dir):
     tar.add(dir)
     tar.close()
 
+def migrations():
+    print(colors.green('----Starting migrations----'))
+    start = datetime.now()
+    print(start)
+    migrationlist = list.migrationslist()
+    for i in migrationlist:
+        if i in getdirs(onprem,pathonprem):
+            print(colors.green(f'Starting tar folder {i}'))
+            ctar(i)
+        else:
+            errorscode.folder(i)
+
+
+    end = datetime.now()
+    print(end)
+    print(colors.yellow('Duration: {}'.format(end - start)))
+    print(colors.green('----Starting migrations----'))
+    sys.exit()
+
+
 
 
 if __name__ == '__main__':
 
-    #ctar(getdirs()[0])
-    print(getdirs(awsserver,pathaws))
+    migrations()
