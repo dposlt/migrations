@@ -56,6 +56,13 @@ def ctar(dir):
     tar.add(dir)
     tar.close()
 
+def utar(file):
+    if tarfile.is_tarfile(file):
+        tar = tarfile.open(file, 'r:gz')
+        tar.extractall()
+    else:
+        errorscode.tar(file)
+
 def copyTarFiles(source, target):
     try:
         copyfile(source,target)
@@ -75,16 +82,24 @@ def migrations():
             start = datetime.now()
             print(colors.green(f'Starting tar folder {i} ----- {start}'))
             log.Loger.writeLog(f'Starting tar folder {i}')
-            #ctar(i)
+            ctar(i)
             tarcopyfile = i + '.tar'
             log.Loger.writeLog(f'Starting copy file {tarcopyfile} to {awsserver}')
             print(colors.green(f'Starting copy tar file {tarcopyfile} to {awsserver}'))
             targetserver = r'\\{server}\d$\{path}'.format(server = awsserver, path = pathaws)
-
             copy(tarcopyfile,targetserver)
+            os.remove(tarcopyfile) #remove on premis server
+            os.chdir(targetserver)
+            log.Loger.writeLog(f'Extract tarfile {tarcopyfile}')
+            print(colors.green(f'Extract tarfile {tarcopyfile}'))
+            extractfile = r'{server}\{file}'.format(server = targetserver, file = tarcopyfile)
 
+            utar(extractfile)
+            log.Loger.writeLog(f'Delete tarfile {tarcopyfile}')
+            print(colors.yellow(f'Delete tarfile {tarcopyfile} from target server'))
+            os.remove(extractfile)
             end = datetime.now()
-            print(colors.green(f'Finish tar folder {i} ----- {end}'))
+            print(colors.green(f'Finish migration tar folder {i} ----- {end}'))
             print(colors.yellow('Duration: {}'.format(end - start)))
         else:
             errorscode.folder(i)

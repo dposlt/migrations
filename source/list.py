@@ -7,5 +7,5 @@
                  'tmgl', 'tmgldev1', 'tmgldev2', 'tmgldev3', 'tmgldev4', 'tmgldev5', 'tmgldev6', 'tmgltest', 'tos_dev', 'tst', 'wikitest']
 '''
 def migrationslist():
-    migrationlist = ['albert','albert_dev','callcentrum_dev']
+    migrationlist = ['albert_dev','callcentrum_dev']
     return migrationlist
