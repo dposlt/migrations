@@ -57,23 +57,26 @@ def ctar(dir):
 
 def migrations():
     print(colors.green('----Starting migrations----'))
-    start = datetime.now()
-    print(start)
+    startmigrations = datetime.now()
     migrationlist = list.migrationslist()
     for i in migrationlist:
         if i in getdirs(onprem,pathonprem):
-            print(colors.green(f'Starting tar folder {i}'))
+            start = datetime.now()
+            print(colors.green(f'Starting tar folder {i} ----- {start}'))
             log.Loger.writeLog(f'Starting tar folder {i}')
             ctar(i)
+            end = datetime.now()
+            print(colors.green(f'Finish tar folder {i} ----- {end}'))
+            print(colors.yellow('Duration: {}'.format(end - start)))
         else:
             errorscode.folder(i)
             log.Loger.writeLog(f"folder {i} doesn't exists")
 
 
-    end = datetime.now()
-    print(end)
-    print(colors.yellow('Duration: {}'.format(end - start)))
-    print(colors.green('----Starting migrations----'))
+
+    endmigrations = datetime.now()
+    print(colors.yellow('All migrations duration: {} minutes'.format(endmigrations - startmigrations)))
+    print(colors.green('----Finish migrations----'))
     sys.exit()
 
 
