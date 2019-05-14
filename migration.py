@@ -1,7 +1,7 @@
 #!/usr/lib/env python3
 
 import configparser, os, tarfile, colorama
-from source import colors, errorscode, ping, list
+from source import colors, errorscode, ping, list, log
 import sys
 from datetime import datetime
 
@@ -63,9 +63,11 @@ def migrations():
     for i in migrationlist:
         if i in getdirs(onprem,pathonprem):
             print(colors.green(f'Starting tar folder {i}'))
+            log.Loger.writeLog(f'Starting tar folder {i}')
             ctar(i)
         else:
             errorscode.folder(i)
+            log.Loger.writeLog(f"folder {i} doesn't exists")
 
 
     end = datetime.now()
