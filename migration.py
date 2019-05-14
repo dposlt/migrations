@@ -4,6 +4,7 @@ import configparser, os, tarfile, colorama
 from source import colors, errorscode, ping, list, log
 import sys
 from datetime import datetime
+from shutil import copy
 
 
 
@@ -55,6 +56,16 @@ def ctar(dir):
     tar.add(dir)
     tar.close()
 
+def copyTarFiles(source, target):
+    try:
+        copyfile(source,target)
+        log.Loger.writeLog(f'Starting copy file {source} to {target}')
+    except:
+        errorscode.colors(source)
+        log.Loger.writeLog(f"folder {i} is not copies")
+
+
+
 def migrations():
     print(colors.green('----Starting migrations----'))
     startmigrations = datetime.now()
@@ -64,7 +75,14 @@ def migrations():
             start = datetime.now()
             print(colors.green(f'Starting tar folder {i} ----- {start}'))
             log.Loger.writeLog(f'Starting tar folder {i}')
-            ctar(i)
+            #ctar(i)
+            tarcopyfile = i + '.tar'
+            log.Loger.writeLog(f'Starting copy file {tarcopyfile} to {awsserver}')
+            print(colors.green(f'Starting copy tar file {tarcopyfile} to {awsserver}'))
+            targetserver = r'\\{server}\d$\{path}'.format(server = awsserver, path = pathaws)
+
+            copy(tarcopyfile,targetserver)
+
             end = datetime.now()
             print(colors.green(f'Finish tar folder {i} ----- {end}'))
             print(colors.yellow('Duration: {}'.format(end - start)))
