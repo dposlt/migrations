@@ -22,4 +22,4 @@ def get_Host_name_IP(host):
     # Driver code
 
 
-get_Host_name_IP('MBCZVW0BL0IIST1')  # Function call
+get_Host_name_IP('hostname')  # Function call
